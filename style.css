@@ -1,0 +1,80 @@
+body {
+    font-family: 'Inter', sans-serif;
+    transition: background-image 0.5s ease-in-out;
+    background-size: cover;
+    background-position: center;
+}
+
+.backdrop-blur-custom {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.loader {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #fff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+.ai-loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top: 2px solid #fff;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #4f46e5;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #4f46e5;
+}
+
+
+.daily-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.daily-item.expanded .daily-details {
+    max-height: 100px; 
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.daily-item.expanded .chevron-icon {
+    transform: rotate(180deg);
+}

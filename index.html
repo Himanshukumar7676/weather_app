@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-800 text-white">
+
+    <div id="app-container" class="min-h-screen w-full flex flex-col items-center p-4 sm:p-6 lg:p-8 relative">
+        
+        <div id="loading-overlay" class="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div class="loader"></div>
+        </div>
+
+        
+        <div id="error-message" class="hidden absolute top-5 bg-red-500 bg-opacity-80 backdrop-blur-custom text-white p-4 rounded-lg shadow-lg z-40">
+            <p id="error-text"></p>
+            <button onclick="document.getElementById('error-message').classList.add('hidden')" class="absolute top-1 right-2 text-xl">&times;</button>
+        </div>
+
+        <main class="w-full max-w-4xl mx-auto z-10 space-y-6">
+            
+            <div class="flex justify-between items-center">
+                <h1 id="greeting" class="text-2xl font-semibold">Good Morning</h1>
+                <div class="flex items-center space-x-2">
+                    <span class="font-medium">°C</span>
+                    <label for="unit-toggle" class="relative inline-block w-12 h-6 cursor-pointer">
+                        <input type="checkbox" id="unit-toggle" class="sr-only peer">
+                        <div class="w-full h-full bg-gray-600 rounded-full peer-checked:bg-blue-600 transition-colors"></div>
+                        <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-6"></div>
+                    </label>
+                    <span class="font-medium">°F</span>
+                </div>
+            </div>
+
+            
+            <div class="bg-black/20 backdrop-blur-custom p-4 rounded-2xl shadow-lg">
+                <form id="search-form" class="flex items-center gap-4">
+                    <div class="relative flex-grow">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50"></i>
+                        <input type="text" id="city-input" placeholder="Search for a city..." class="w-full bg-white/10 text-white placeholder-white/50 border-none rounded-lg py-3 pl-10 pr-4 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    </div>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-3 px-5 rounded-lg">Search</button>
+                    <button type="button" id="location-btn" class="bg-gray-600 hover:bg-gray-700 transition-colors text-white p-3 rounded-lg" title="Use my location">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </button>
+                </form>
+            </div>
+
+            
+            <div id="weather-content" class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-0">
+                <!-- Current Weather -->
+                <div class="md:col-span-1 bg-black/20 backdrop-blur-custom p-6 rounded-2xl shadow-lg flex flex-col items-center text-center">
+                    <h2 id="city-name" class="text-3xl font-bold">--</h2>
+                    <p id="weather-description" class="text-lg text-white/80 mt-1">--</p>
+                    <div id="weather-icon" class="my-4 w-28 h-28"></div>
+                    <p id="current-temp" class="text-7xl font-bold">--°</p>
+                    <div class="flex gap-4 text-white/80 mt-2">
+                        <p>H: <span id="high-temp">--</span>°</p>
+                        <p>L: <span id="low-temp">--</span>°</p>
+                    </div>
+                </div>
+
+                
+                <div class="md:col-span-2 space-y-6">
+                    
+                    <div class="bg-black/20 backdrop-blur-custom p-6 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-semibold flex items-center gap-2 mb-3">
+                            <i data-lucide="sparkles" class="w-6 h-6 text-yellow-300"></i>
+                            AI Weather Summary
+                        </h3>
+                        <div id="ai-summary-content" class="text-white/90 leading-relaxed">
+                             <div class="flex items-center gap-3">
+                                <div class="loader ai-loader"></div>
+                                <span>Generating summary...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                        <div class="bg-black/20 backdrop-blur-custom p-4 rounded-xl shadow-lg transition-transform hover:scale-105">
+                            <p class="text-sm text-white/70">Feels Like</p>
+                            <p id="feels-like" class="text-2xl font-semibold mt-1">--°</p>
+                        </div>
+                        <div class="bg-black/20 backdrop-blur-custom p-4 rounded-xl shadow-lg transition-transform hover:scale-105">
+                            <p class="text-sm text-white/70">Humidity</p>
+                            <p id="humidity" class="text-2xl font-semibold mt-1">--%</p>
+                        </div>
+                        <div class="bg-black/20 backdrop-blur-custom p-4 rounded-xl shadow-lg transition-transform hover:scale-105">
+                            <p class="text-sm text-white/70">Wind Speed</p>
+                            <p id="wind-speed" class="text-2xl font-semibold mt-1">--</p>
+                        </div>
+                        <div class="bg-black/20 backdrop-blur-custom p-4 rounded-xl shadow-lg transition-transform hover:scale-105">
+                            <p class="text-sm text-white/70">Pressure</p>
+                            <p id="pressure" class="text-2xl font-semibold mt-1">-- hPa</p>
+                        </div>
+                        <div class="bg-black/20 backdrop-blur-custom p-4 rounded-xl shadow-lg transition-transform hover:scale-105">
+                            <p class="text-sm text-white/70">Visibility</p>
+                            <p id="visibility" class="text-2xl font-semibold mt-1">-- km</p>
+                        </div>
+                        <div class="bg-black/20 backdrop-blur-custom p-4 rounded-xl shadow-lg transition-transform hover:scale-105">
+                            <p class="text-sm text-white/70">UV Index</p>
+                            <p id="uv-index" class="text-2xl font-semibold mt-1">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id="hourly-forecast-container" class="bg-black/20 backdrop-blur-custom p-6 rounded-2xl shadow-lg opacity-0">
+                <h3 class="text-xl font-semibold mb-4">Hourly Forecast</h3>
+                <div id="hourly-forecast" class="flex overflow-x-auto space-x-2 pb-2">
+                    
+                </div>
+            </div>
+
+            
+            <div id="daily-forecast-container" class="bg-black/20 backdrop-blur-custom p-6 rounded-2xl shadow-lg opacity-0">
+                <h3 class="text-xl font-semibold mb-4">7-Day Forecast</h3>
+                <div id="daily-forecast" class="space-y-2">
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
