@@ -2,7 +2,6 @@
 
 A sleek, modern, and interactive weather application that provides real-time weather data and conversational summaries powered by Google's Gemini AI.
 
-![AI Weather App Screenshot](https://placehold.co/800x450/2d3748/ffffff?text=App+Screenshot+Here)
 
 ## ✨ Features
 
@@ -64,9 +63,5 @@ You'll need a modern web browser like Chrome, Firefox, or Safari.
 
 5.  **Open the application:**
     * Simply open the `index.html` file in your web browser.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
